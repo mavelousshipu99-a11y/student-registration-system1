@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="page-header">
+        <h1>Admin Dashboard</h1>
+        <span class="badge">Logged in as {{ session.get('admin_username') }}</span>
+    </div>
+
+    <!-- ===== STAT CARDS ===== -->
+    <div class="stats-row">
+        <div class="mini-stat">
+            <span class="mini-stat-number">{{ total_students }}</span>
+            <span class="mini-stat-label">Total Students</span>
+        </div>
+        <div class="mini-stat">
+            <span class="mini-stat-number">{{ total_courses }}</span>
+            <span class="mini-stat-label">Courses Offered</span>
+        </div>
+    </div>
+
+    <!-- ===== COURSE BREAKDOWN ===== -->
+    {% if course_counts %}
+    <div class="section-block">
+        <h2>Students per Course</h2>
+        <div class="course-breakdown">
+            {% for row in course_counts %}
+            <div class="course-pill">
+                <span class="course-pill-name">{{ row["course"] }}</span>
+                <span class="course-pill-count">{{ row["count"] }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ===== FULL STUDENT TABLE ===== -->
+    <div class="section-block">
+        <h2>All Registrations</h2>
+
+        {% if students %}
+        <div class="table-wrapper">
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Age</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student["id"] }}</td>
+                        <td>{{ student["name"] }}</td>
+                        <td>{{ student["email"] }}</td>
+                        <td><span class="course-tag">{{ student["course"] }}</span></td>
+                        <td>{{ student["age"] if student["age"] else "—" }}</td>
+                        <td class="actions-cell">
+                            <a href="{{ url_for('edit_student', student_id=student['id']) }}" class="edit-link">Edit</a>
+                            <a href="{{ url_for('delete_student', student_id=student['id']) }}"
+                               class="delete-link"
+                               onclick="return confirm('Delete {{ student['name'] }}?');">
+                               Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No students registered yet.</p>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

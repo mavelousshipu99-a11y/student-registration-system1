@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Welcome - Student Registration System{% endblock %}
+
+{% block content %}
+
+    <div class="hero">
+        <h1>Student Registration Portal</h1>
+        <p class="subtitle">Register in a few seconds. Fast, simple and secure.</p>
+
+        <div class="hero-stats">
+            <div class="stat-card">
+                <span class="stat-number">{{ total }}</span>
+                <span class="stat-label">Students Registered</span>
+            </div>
+        </div>
+
+        <a href="{{ url_for('register') }}" class="btn btn-large">Register Now</a>
+    </div>
+
+    <div class="info-grid">
+        <div class="info-card">
+            <h3>📝 Quick Registration</h3>
+            <p>Fill in your name, email, course and age — takes less than a minute.</p>
+        </div>
+        <div class="info-card">
+            <h3>🔒 Private &amp; Secure</h3>
+            <p>Your details are stored safely. Only authorized admins can view the full list.</p>
+        </div>
+        <div class="info-card">
+            <h3>📊 Managed by Admins</h3>
+            <p>Administrators can review, edit and manage every registration from the dashboard.</p>
+        </div>
+    </div>
+
+{% endblock %}
